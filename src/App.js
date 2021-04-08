@@ -2,9 +2,6 @@ import { AppBar, CssBaseline, Grid } from '@material-ui/core';
 import React from 'react';
 import './App.css';
 import Grid2048 from './components/Grid2048';
-import GridItem from './components/GridItem';
-
-import { createMuiTheme } from '@material-ui/core/styles';
 import Palette from './components/Palette';
 
 
