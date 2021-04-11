@@ -7,7 +7,7 @@ import Palette from "./components/Palette";
 function App() {
   const [score, setScore] = useState(0);
   return (
-    <div style={{ height: "100%" }}>
+    <div>
       <Palette>
         <CssBaseline />
         <AppBar position="static" bgcolor="#6d4c41">
@@ -16,16 +16,9 @@ function App() {
             Score {score}
           </h1>
         </AppBar>
-        <Grid container style={{ height: "100%" }}>
+        <Grid container>
           <Grid item sm={2}></Grid>
-          <Grid
-            item
-            container
-            justify="center"
-            alignContent="center"
-            style={{ height: "100%" }}
-            sm={8}
-          >
+          <Grid container justify="center" sm={8} style={{ width: "100%" }}>
             <Grid2048 score={score} setScore={setScore} />
           </Grid>
           <Grid item sm={2}></Grid>
