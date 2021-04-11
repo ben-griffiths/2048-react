@@ -9,8 +9,9 @@ import BlankItem from "./BlankItem";
 const useStyles = makeStyles({
   box: {
     width: "100%",
+    maxWidth: "80vh",
+    paddingBottom: "min(100%, 80vh)",
     margin: "50px 10px 10px 10px",
-    paddingBottom: "100%",
     position: "relative",
     border: "8px solid ".concat(theme.palette.secondary.main),
     background: theme.palette.secondary.main,
