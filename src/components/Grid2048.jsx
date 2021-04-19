@@ -1,8 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import GridItem from "./GridItem";
-import { useState } from "react";
-
+import {
+  getRandomCoords,
+  randomId,
+  getRandomNum,
+  equals,
+  range,
+} from "../helpers/common";
 import { theme } from "./Palette";
 import BlankItem from "./BlankItem";
 
@@ -19,20 +24,16 @@ const useStyles = makeStyles({
   },
 });
 
-const randomInt = (max) => Math.floor(Math.random() * max);
+export const createInitialItems = () => {
+  var initialItems = {};
+  const setInitialItems = (someItems) => (initialItems = someItems);
 
-const getRandomCoords = () => [randomInt(4), randomInt(4)];
-
-const getRandomNum = () => {
-  const x = Math.random();
-  if (x < 0.9) {
-    return 2;
-  } else {
-    return 4;
+  for (var i = 0; i < 2; i++) {
+    addRandomItem(initialItems, setInitialItems);
   }
-};
 
-const randomId = () => randomInt(1000000);
+  return initialItems;
+};
 
 const isSpaceTaken = (coords, items) => {
   for (var item of items) {
@@ -52,21 +53,15 @@ const addRandomItem = (items, setItems) => {
   setItems({ ...items, [randomId()]: [...coords, getRandomNum()] });
 };
 
-const equals = (a, b) => {
-  if (a === b) {
-    return true;
-  } else if (
-    a instanceof Array &&
-    b instanceof Array &&
-    a.length === b.length
-  ) {
-    return a.every((v, i) => equals(v, b[i]));
-  } else {
-    return false;
-  }
-};
-
-const shift = (direction, items, setItems, score, setScore) => {
+export const shift = (
+  direction,
+  items,
+  setItems,
+  score,
+  setScore,
+  deadItems,
+  setDeadItems
+) => {
   const lines = [[], [], [], []];
   const coordIndex = ["left", "right"].includes(direction) ? 0 : 1;
 
@@ -79,7 +74,7 @@ const shift = (direction, items, setItems, score, setScore) => {
   for (var i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Sort line into helpful
+    // Sort line into helpful order
     line.sort((a, b) => a[1][coordIndex] - b[1][coordIndex]);
 
     // Combine items in line if possible
@@ -87,6 +82,7 @@ const shift = (direction, items, setItems, score, setScore) => {
       if (line[k][1][2] === line[k - 1][1][2]) {
         line[k][1][2] = line[k][1][2] * 2;
         setScore(score + line[k][1][2]);
+        setDeadItems({ ...deadItems, [line[k - 1][0]]: line[k - 1][1] });
         line.splice(k - 1, 1);
       }
     }
@@ -118,60 +114,30 @@ const shift = (direction, items, setItems, score, setScore) => {
   }
 };
 
-let range = (n) => [...Array(n).keys()];
-
 const Grid2048 = (props) => {
   const classes = useStyles();
-
-  const { score, setScore } = props;
-
-  var initialItems = {};
-  const setInitialItems = (someItems) => {
-    initialItems = someItems;
-  };
-
-  for (var i = 0; i < 2; i++) {
-    addRandomItem(initialItems, setInitialItems);
-  }
-
-  const [items, setItems] = useState(initialItems);
-
-  const KEY_LEFT = 37;
-  const KEY_UP = 38;
-  const KEY_RIGHT = 39;
-  const KEY_DOWN = 40;
-
-  const handleKeyDown = (event) => {
-    switch (event.keyCode) {
-      case KEY_LEFT:
-        shift("left", items, setItems, score, setScore);
-        break;
-      case KEY_UP:
-        shift("up", items, setItems, score, setScore);
-        break;
-      case KEY_RIGHT:
-        shift("right", items, setItems, score, setScore);
-        break;
-      case KEY_DOWN:
-        shift("down", items, setItems, score, setScore);
-        break;
-      default:
-    }
-  };
+  const { items, deadItems, setDeadItems } = props;
 
   return (
-    <div
-      className={classes.box}
-      onKeyDown={handleKeyDown}
-      tabIndex="-1"
-      onAnimationEnd={addRandomItem}
-    >
-      {range(16).map((i) => (
-        <BlankItem x={i % 4} y={Math.floor(i / 4)} key={i} />
-      ))}
-      {Object.keys(items).map((id) => (
-        <GridItem items={items} key={id} id={id} />
-      ))}
+    <div style={{ width: "100%", height: "100%" }}>
+      <div className={classes.box} onAnimationEnd={addRandomItem}>
+        {range(16).map((i) => (
+          <BlankItem x={i % 4} y={Math.floor(i / 4)} key={i} />
+        ))}
+        {Object.keys(deadItems).map((id) => (
+          <GridItem
+            items={deadItems}
+            key={id}
+            id={id}
+            dead={true}
+            deadItems={deadItems}
+            setDeadItems={setDeadItems}
+          />
+        ))}
+        {Object.keys(items).map((id) => (
+          <GridItem items={items} key={id} id={id} dead={false} />
+        ))}
+      </div>
     </div>
   );
 };

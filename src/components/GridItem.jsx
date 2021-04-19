@@ -1,5 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 
 const useStyles = makeStyles({
@@ -20,9 +20,19 @@ const toPercentage = (num) => num.toString().concat("%");
 
 const GridItem = (props) => {
   const classes = useStyles();
-  const { items, id } = props;
+  const { items, id, dead, deadItems, setDeadItems } = props;
+
+  useEffect(() => {
+    if (dead) {
+      setTimeout(() => {
+        delete deadItems[id];
+        setDeadItems(deadItems);
+      }, 100);
+    }
+  });
 
   var [x, y, val] = items[id];
+
   var left = toPercentage(x * 25);
   var top = toPercentage(y * 25);
 
