@@ -1,5 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
 const useStyles = makeStyles({
@@ -21,15 +21,25 @@ const toPercentage = (num) => num.toString().concat("%");
 const GridItem = (props) => {
   const classes = useStyles();
   const { items, id, dead, deadItems, setDeadItems } = props;
+  const [bgcolor, setBgColor] = useState(dead ? "red" : "blue");
 
   useEffect(() => {
+    let colTimeOut;
     if (dead) {
       setTimeout(() => {
-        delete deadItems[id];
-        setDeadItems(deadItems);
+        const temp = { ...deadItems };
+        delete temp[id];
+        setDeadItems(temp);
+      }, 100);
+    } else {
+      colTimeOut = setTimeout(() => {
+        setBgColor("white");
       }, 100);
     }
-  });
+    return () => {
+      clearTimeout(colTimeOut);
+    };
+  }, [dead, deadItems, id, setBgColor, setDeadItems]);
 
   var [x, y, val] = items[id];
 
@@ -38,7 +48,7 @@ const GridItem = (props) => {
 
   return (
     <Box
-      bgcolor={"white"}
+      bgcolor={bgcolor}
       className={classNames(classes.box, classes.fadeIn)}
       style={{ top, left }}
     >
