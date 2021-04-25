@@ -1,14 +1,46 @@
-import { AppBar, CssBaseline, Grid } from "@material-ui/core";
+import { CssBaseline, Grid } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import Grid2048, { createInitialItems, shift } from "./components/Grid2048";
+import Grid2048, {
+  createInitialItems,
+  shift,
+  resetBoard,
+  undo,
+} from "./components/Grid2048";
 import Palette from "./components/Palette";
+import Header from "./components/Header";
 import { KEY_BINDINGS } from "./helpers/common";
 
 function App() {
-  const [score, setScore] = useState(0);
   const [items, setItems] = useState(createInitialItems());
+  const [score, setScore] = useState(0);
   const [deadItems, setDeadItems] = useState({});
+  const [highScore, setHighScore] = useState(0);
+  const [previousItems, setPreviousItems] = useState(items);
+  const [previousScore, setPreviousScore] = useState(score);
+
+  const states = {
+    items,
+    setItems,
+    score,
+    setScore,
+    deadItems,
+    setDeadItems,
+    highScore,
+    setHighScore,
+    previousItems,
+    setPreviousItems,
+    previousScore,
+    setPreviousScore,
+  };
+
+  const resetBoardFunc = () => {
+    resetBoard(states);
+  };
+
+  const undoFunc = () => {
+    undo(states);
+  };
 
   const inputRef = useRef();
 
@@ -17,19 +49,18 @@ function App() {
   });
 
   const handleKeyDown = (event) => {
-    const states = [items, setItems, score, setScore, deadItems, setDeadItems];
     switch (event.keyCode) {
       case KEY_BINDINGS.KEY_LEFT:
-        shift("left", ...states);
+        shift("left", states);
         break;
       case KEY_BINDINGS.KEY_UP:
-        shift("up", ...states);
+        shift("up", states);
         break;
       case KEY_BINDINGS.KEY_RIGHT:
-        shift("right", ...states);
+        shift("right", states);
         break;
       case KEY_BINDINGS.KEY_DOWN:
-        shift("down", ...states);
+        shift("down", states);
         break;
       default:
         break;
@@ -45,28 +76,22 @@ function App() {
     >
       <Palette>
         <CssBaseline />
-        <AppBar position="static" bgcolor="#6d4c41">
-          <h1 style={{ padding: "12px" }}>2048-React</h1>
-          <h1 style={{ padding: "12px", position: "absolute", right: "0" }}>
-            Score {score}
-          </h1>
-        </AppBar>
         <Grid container>
-          <Grid item sm={2}></Grid>
-          <Grid
-            container
-            item
-            justify="center"
-            sm={8}
-            style={{ width: "100%" }}
-          >
+          <Grid item xs={2}></Grid>
+          <Grid container item xs={8}>
+            <Header
+              score={score}
+              highScore={highScore}
+              resetBoardFunc={resetBoardFunc}
+              undoFunc={undoFunc}
+            />
             <Grid2048
               items={items}
               deadItems={deadItems}
               setDeadItems={setDeadItems}
             />
           </Grid>
-          <Grid item sm={2}></Grid>
+          <Grid item xs={2}></Grid>
         </Grid>
       </Palette>
     </div>
