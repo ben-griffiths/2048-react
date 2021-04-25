@@ -8,10 +8,10 @@ const useStyles = makeStyles({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    width: "calc(25% - 16px)",
-    height: "calc(25% - 16px)",
-    margin: "8px",
-    borderRadius: "16px",
+    width: "23%",
+    height: "23%",
+    margin: "1%",
+    borderRadius: "10%",
     transition: "all 100ms linear",
   },
 });
@@ -20,26 +20,34 @@ const toPercentage = (num) => num.toString().concat("%");
 
 const GridItem = (props) => {
   const classes = useStyles();
-  const { items, id, dead, deadItems, setDeadItems } = props;
-  const [bgcolor, setBgColor] = useState(dead ? "red" : "blue");
+  const { items, id, type, deadItems, setDeadItems } = props;
+  const [bgcolor, setBgColor] = useState(null);
 
   useEffect(() => {
     let colTimeOut;
-    if (dead) {
-      setTimeout(() => {
-        const temp = { ...deadItems };
-        delete temp[id];
-        setDeadItems(temp);
-      }, 100);
-    } else {
-      colTimeOut = setTimeout(() => {
-        setBgColor("white");
-      }, 100);
+    switch (type) {
+      case "dead":
+        setBgColor("red");
+        setTimeout(() => {
+          const temp = { ...deadItems };
+          delete temp[id];
+          setDeadItems(temp);
+        }, 100);
+        break;
+      case "blank":
+        setBgColor("darkgrey");
+        break;
+      default:
+        setBgColor("blue");
+        colTimeOut = setTimeout(() => {
+          setBgColor("white");
+        }, 100);
+        break;
     }
     return () => {
       clearTimeout(colTimeOut);
     };
-  }, [dead, deadItems, id, setBgColor, setDeadItems]);
+  }, [type, deadItems, id, setBgColor, setDeadItems]);
 
   var [x, y, val] = items[id];
 
@@ -52,7 +60,7 @@ const GridItem = (props) => {
       className={classNames(classes.box, classes.fadeIn)}
       style={{ top, left }}
     >
-      <h1> {val} </h1>
+      {type === "blank" ? null : <h1 style={{ fontSize: "7vw" }}> {val} </h1>}
     </Box>
   );
 };

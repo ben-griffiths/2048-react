@@ -35,3 +35,5 @@ export const KEY_BINDINGS = {
   KEY_RIGHT: 39,
   KEY_DOWN: 40,
 };
+
+export const deepCopy = (object) => JSON.parse(JSON.stringify(object));
