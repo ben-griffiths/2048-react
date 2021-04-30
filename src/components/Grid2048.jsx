@@ -1,11 +1,12 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GridItem from "./GridItem";
 import {
   getRandomCoords,
   randomId,
   getRandomNum,
   equals,
+  range,
 } from "../helpers/common";
 import { theme } from "./Palette";
 import { deepCopy } from "../helpers/common";
@@ -91,6 +92,19 @@ export const undo = (states) => {
   setItems(previousItems);
 };
 
+const createGrid = (items, invertAxis = false) => {
+  const lines = [[], [], [], []];
+  for (var [id, item] of Object.entries(deepCopy(items))) {
+    lines[item[invertAxis ? 0 : 1]].push([id, item]);
+  }
+  for (var i = 0; i < 4; i++) {
+    lines[i].sort(
+      (a, b) => a[1][invertAxis ? 1 : 0] - b[1][invertAxis ? 1 : 0]
+    );
+  }
+  return lines;
+};
+
 export const shift = (direction, states) => {
   const {
     items,
@@ -103,14 +117,11 @@ export const shift = (direction, states) => {
     setPreviousScore,
   } = states;
 
-  const lines = [[], [], [], []];
   const coordIndex = ["left", "right"].includes(direction) ? 0 : 1;
   let newScore = score;
 
   // Create grid of items
-  for (var [id, item] of Object.entries(deepCopy(items))) {
-    lines[item[1 - coordIndex]].push([id, item]);
-  }
+  const lines = createGrid(items, coordIndex === 1);
 
   const newItems = {};
   for (var i = 0; i < lines.length; i++) {
@@ -171,10 +182,46 @@ const createInitialBlankItems = () => {
   return blankItems;
 };
 
+const isGameOver = (items) => {
+  const lines = createGrid(items, true);
+  for (const line of lines) {
+    if (line.length < 4) {
+      return false;
+    }
+  }
+
+  for (var item of Object.values(items)) {
+    var [x, y, val] = item;
+    var adjacentCoords = [
+      [x - 1, y],
+      [x + 1, y],
+      [x, y - 1],
+      [x, y + 1],
+    ];
+    for (var [nx, ny] of adjacentCoords) {
+      if (range(4).includes(nx) && range(4).includes(ny)) {
+        var nval = lines[nx][ny][1][2];
+        if (nval === val) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+};
+
 const Grid2048 = (props) => {
   const classes = useStyles();
-  const { items, deadItems, setDeadItems } = props;
+  const { items, deadItems, setDeadItems, setGameOver } = props;
   const [blankItems] = useState(createInitialBlankItems());
+
+  useEffect(() => {
+    if (isGameOver(items)) {
+      setTimeout(() => {
+        setGameOver(true);
+      }, 400);
+    }
+  }, [items, setGameOver]);
 
   return (
     <div style={{ width: "100%" }}>
