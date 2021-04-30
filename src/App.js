@@ -9,6 +9,7 @@ import Grid2048, {
 } from "./components/Grid2048";
 import Palette from "./components/Palette";
 import Header from "./components/Header";
+import GameOver from "./components/GameOver";
 import { KEY_BINDINGS } from "./helpers/common";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   const [highScore, setHighScore] = useState(0);
   const [previousItems, setPreviousItems] = useState(items);
   const [previousScore, setPreviousScore] = useState(score);
+  const [gameOver, setGameOver] = useState(false);
 
   const states = {
     items,
@@ -76,6 +78,12 @@ function App() {
     >
       <Palette>
         <CssBaseline />
+        <GameOver
+          gameOver={gameOver}
+          setGameOver={setGameOver}
+          resetBoardFunc={resetBoardFunc}
+          undoFunc={undoFunc}
+        />
         <Grid container>
           <Grid item xs={2}></Grid>
           <Grid container item xs={8}>
@@ -89,6 +97,7 @@ function App() {
               items={items}
               deadItems={deadItems}
               setDeadItems={setDeadItems}
+              setGameOver={setGameOver}
             />
           </Grid>
           <Grid item xs={2}></Grid>
