@@ -11,15 +11,34 @@ import Palette from "./components/Palette";
 import Header from "./components/Header";
 import GameOver from "./components/GameOver";
 import { KEY_BINDINGS } from "./helpers/common";
+import { getGist } from "./helpers/gist";
 
 function App() {
   const [items, setItems] = useState(createInitialItems());
   const [score, setScore] = useState(0);
   const [deadItems, setDeadItems] = useState({});
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(-1);
   const [previousItems, setPreviousItems] = useState(items);
   const [previousScore, setPreviousScore] = useState(score);
   const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+    const getHighScore = () => {
+      getGist().then((resp) => {
+        const newHighScore = parseInt(resp.data.files["Highscore.txt"].content);
+        if (newHighScore > highScore) {
+          setHighScore(newHighScore);
+        }
+      });
+    };
+
+    getHighScore();
+    setInterval(() => {
+      getHighScore();
+    }, 5000);
+  }, [highScore, setHighScore]);
+
+  console.log(window.navigator.userAgent);
 
   const states = {
     items,
