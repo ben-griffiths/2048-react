@@ -21,24 +21,24 @@ function App() {
   const [previousItems, setPreviousItems] = useState(items);
   const [previousScore, setPreviousScore] = useState(score);
   const [gameOver, setGameOver] = useState(false);
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
-    const getHighScore = () => {
-      getGist().then((resp) => {
-        const newHighScore = parseInt(resp.data.files["Highscore.txt"].content);
-        if (newHighScore > highScore) {
-          setHighScore(newHighScore);
-        }
-      });
-    };
+    getGist().then((resp) => {
+      const newHighScore = parseInt(resp.data.files["Highscore.txt"].content);
+      if (newHighScore > highScore) {
+        setHighScore(newHighScore);
+      }
+    });
+  }, [highScore, timer]);
 
-    getHighScore();
-    setInterval(() => {
-      getHighScore();
-    }, 5000);
-  }, [highScore, setHighScore]);
-
-  console.log(window.navigator.userAgent);
+  useEffect(() => {
+    if (!timer) {
+      setInterval(() => {
+        setTimer(new Date());
+      }, 5000);
+    }
+  }, [timer, setTimer]);
 
   const states = {
     items,
