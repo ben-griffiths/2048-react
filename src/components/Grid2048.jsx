@@ -10,6 +10,7 @@ import {
 } from "../helpers/common";
 import { theme } from "./Palette";
 import { deepCopy } from "../helpers/common";
+import { updateGist } from "../helpers/gist";
 
 const useStyles = makeStyles({
   box: {
@@ -76,6 +77,11 @@ export const resetBoard = (states) => {
   }
   if (highScore < score) {
     setHighScore(score);
+    updateGist({
+      files: { "Highscore.txt": { content: score.toString() } },
+    }).then((resp) => {
+      console.log(resp.data);
+    });
   }
 
   // Set previous state

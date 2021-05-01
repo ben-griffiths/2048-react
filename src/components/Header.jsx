@@ -1,4 +1,4 @@
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles, Button, CircularProgress } from "@material-ui/core";
 import React from "react";
 import { Refresh, Undo } from "@material-ui/icons";
 
@@ -34,7 +34,11 @@ const ScoreBox = (props) => {
   return (
     <div className={classes.box}>
       <h3 style={{ fontSize: "1.5vw", margin: "0" }}>{title}</h3>
-      <h2 style={{ fontSize: "2.5vw", margin: "0" }}>{score}</h2>
+      {score > -1 ? (
+        <h2 style={{ fontSize: "2.5vw", margin: "0" }}>{score}</h2>
+      ) : (
+        <CircularProgress size="2.5vw" />
+      )}
     </div>
   );
 };

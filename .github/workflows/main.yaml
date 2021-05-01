@@ -36,3 +36,5 @@ jobs:
           user_email: "github-actions[bot]@users.noreply.github.com"
           github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
+          REACT_APP_GIST_ID: ${{ secrets.REACT_APP_GIST_ID }}
+          REACT_APP_GIST_TOKEN: ${{ secrets.REACT_APP_GIST_TOKEN }}
