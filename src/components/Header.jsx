@@ -64,7 +64,7 @@ const Header = (props) => {
           variant="contained"
           color="secondary"
           onClick={resetBoardFunc}
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: "10px", zIndex: 10 }}
         >
           <Refresh style={{ color: "white" }} />
         </Button>
