@@ -1,3 +1,13 @@
+import {
+  adjectives,
+  animals,
+  colors,
+  names,
+  NumberDictionary,
+  starWars,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
+
 export const randomInt = (max) => Math.floor(Math.random() * max);
 
 export const getRandomCoords = () => [randomInt(4), randomInt(4)];
@@ -29,6 +39,8 @@ export const equals = (a, b) => {
 
 export const range = (n) => [...Array(n).keys()];
 
+export const randomChoice = (list) => list[randomInt(list.length)];
+
 export const KEY_BINDINGS = {
   KEY_LEFT: 37,
   KEY_UP: 38,
@@ -37,3 +49,22 @@ export const KEY_BINDINGS = {
 };
 
 export const deepCopy = (object) => JSON.parse(JSON.stringify(object));
+
+export const randomName = () => {
+  const dictionaryList = [animals, starWars, names];
+
+  const adjectiveList = [[], [adjectives], [colors]];
+
+  const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
+
+  const dictionaries = [
+    ...randomChoice(adjectiveList),
+    randomChoice(dictionaryList),
+    numberDictionary,
+  ];
+  return uniqueNamesGenerator({
+    dictionaries,
+    separator: "",
+    style: "capital",
+  }).replace(/ /g, "");
+};

@@ -1,16 +1,16 @@
 import { makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import GridItem from "./GridItem";
 import {
-  getRandomCoords,
-  randomId,
-  getRandomNum,
+  deepCopy,
   equals,
+  getRandomCoords,
+  getRandomNum,
+  randomId,
   range,
 } from "../helpers/common";
+import { getGist, updateGist } from "../helpers/gist";
+import GridItem from "./GridItem";
 import { theme } from "./Palette";
-import { deepCopy } from "../helpers/common";
-import { updateGist } from "../helpers/gist";
 
 const useStyles = makeStyles({
   box: {
@@ -71,25 +71,37 @@ export const resetBoard = (states) => {
     setHighScore,
     setPreviousItems,
     setPreviousScore,
+    username,
   } = states;
   for (var [id, item] of Object.entries(items)) {
     addDeadItem(deadItems, setDeadItems, id, [item[0], item[1]]);
   }
-  if (highScore < score) {
-    setHighScore(score);
-    updateGist({
-      files: { "Highscore.txt": { content: score.toString() } },
-    }).then((resp) => {
-      console.log(resp.data);
-    });
-  }
 
-  // Set previous state
-  setPreviousItems(items);
-  setPreviousScore(score);
+  getGist().then((resp) => {
+    const leaderboard = JSON.parse(resp.data.files["Leaderboard.json"].content);
 
-  setScore(0);
-  setItems(createInitialItems());
+    const newLeaderboard = [...leaderboard, { name: username, score: score }]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+    let files = {
+      "Leaderboard.json": {
+        content: JSON.stringify(newLeaderboard),
+      },
+    };
+    if (highScore < score) {
+      setHighScore(score);
+      files["Highscore.txt"] = { content: score.toString() };
+    }
+
+    updateGist({ files }).then((resp) => console.log(resp.data));
+
+    // Set previous state
+    setPreviousItems(items);
+    setPreviousScore(score);
+
+    setScore(0);
+    setItems(createInitialItems());
+  });
 };
 
 export const undo = (states) => {

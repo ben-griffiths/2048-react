@@ -1,6 +1,6 @@
-import React from "react";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import React from "react";
 
 export const theme = createMuiTheme({
   palette: {
@@ -11,6 +11,13 @@ export const theme = createMuiTheme({
     secondary: {
       main: "#9e9e9e",
       contrastText: "#000",
+    },
+    tertiary: {
+      main: "grey",
+      contrastText: "#000",
+    },
+    quaternary: {
+      main: "darkgrey",
     },
     background: {
       default: "#fff3e0",

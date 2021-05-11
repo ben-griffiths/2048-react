@@ -1,6 +1,7 @@
-import { makeStyles, Button, CircularProgress } from "@material-ui/core";
-import React from "react";
+import { Button, CircularProgress, makeStyles } from "@material-ui/core";
 import { Refresh, Undo } from "@material-ui/icons";
+import React from "react";
+import { theme } from "./Palette";
 
 const useStyles = makeStyles({
   container: { display: "flex", flexDirection: "column", width: "100%" },
@@ -8,7 +9,7 @@ const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     justifyContent: "flex-end",
-    margin: "10px",
+    padding: "10px 0 10px 0",
   },
   actionBar: {
     display: "flex",
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
   box: {
     marginLeft: "10px",
     padding: "12px",
-    background: "grey",
+    background: theme.palette.tertiary.main,
     borderRadius: "10px",
     color: "white",
     display: "flex",

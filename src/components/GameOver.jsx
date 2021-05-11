@@ -1,6 +1,6 @@
-import { Grid, Backdrop, Button } from "@material-ui/core";
-import React from "react";
+import { Backdrop, Button, Grid } from "@material-ui/core";
 import { Refresh, Undo } from "@material-ui/icons";
+import React from "react";
 
 const GameOver = (props) => {
   const { gameOver, setGameOver, undoFunc, resetBoardFunc } = props;
