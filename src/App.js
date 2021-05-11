@@ -1,16 +1,17 @@
 import { CssBaseline, Grid } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
+import GameOver from "./components/GameOver";
 import Grid2048, {
   createInitialItems,
-  shift,
   resetBoard,
+  shift,
   undo,
 } from "./components/Grid2048";
-import Palette from "./components/Palette";
 import Header from "./components/Header";
-import GameOver from "./components/GameOver";
-import { KEY_BINDINGS } from "./helpers/common";
+import Palette from "./components/Palette";
+import Sidebar from "./components/Sidebar";
+import { KEY_BINDINGS, randomName } from "./helpers/common";
 import { getGist } from "./helpers/gist";
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
   const [previousScore, setPreviousScore] = useState(score);
   const [gameOver, setGameOver] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [leaderboard, setLeaderboard] = useState(null);
+  const [username] = useState(randomName());
 
   useEffect(() => {
     getGist().then((resp) => {
@@ -29,6 +32,10 @@ function App() {
       if (newHighScore > highScore) {
         setHighScore(newHighScore);
       }
+      const newLeaderboard = JSON.parse(
+        resp.data.files["Leaderboard.json"].content
+      );
+      setLeaderboard(newLeaderboard);
     });
   }, [highScore, timer]);
 
@@ -53,6 +60,8 @@ function App() {
     setPreviousItems,
     previousScore,
     setPreviousScore,
+    leaderboard,
+    username,
   };
 
   const resetBoardFunc = () => {
@@ -103,8 +112,7 @@ function App() {
           resetBoardFunc={resetBoardFunc}
           undoFunc={undoFunc}
         />
-        <Grid container>
-          <Grid item xs={2}></Grid>
+        <Grid container style={{ paddingLeft: "10px", paddingRight: "10px" }}>
           <Grid container item xs={8}>
             <Header
               score={score}
@@ -119,7 +127,9 @@ function App() {
               setGameOver={setGameOver}
             />
           </Grid>
-          <Grid item xs={2}></Grid>
+          <Grid item xs={4}>
+            <Sidebar leaderboard={leaderboard} username={username} />
+          </Grid>
         </Grid>
       </Palette>
     </div>

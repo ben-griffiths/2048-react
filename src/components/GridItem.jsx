@@ -1,6 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
 import classNames from "classnames";
+import React, { useEffect, useState } from "react";
+import { theme } from "./Palette";
 
 const useStyles = makeStyles({
   box: {
@@ -35,7 +36,7 @@ const GridItem = (props) => {
         }, 100);
         break;
       case "blank":
-        setBgColor("darkgrey");
+        setBgColor(theme.palette.quaternary.main);
         break;
       default:
         setBgColor("blue");

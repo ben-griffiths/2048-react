@@ -9,10 +9,10 @@ axios.defaults.headers = {
 
 const gistId = process.env.REACT_APP_GIST_ID;
 
-export const getGist = () => {
+export const getGist = async () => {
   return axios.get(`https://api.github.com/gists/${gistId}?${randomId()}`);
 };
 
-export const updateGist = (data) => {
+export const updateGist = async (data) => {
   return axios.patch(`https://api.github.com/gists/${gistId}`, data);
 };
