@@ -72,6 +72,7 @@ export const resetBoard = (states) => {
     setPreviousItems,
     setPreviousScore,
     username,
+    setGameOver,
   } = states;
   for (var [id, item] of Object.entries(items)) {
     addDeadItem(deadItems, setDeadItems, id, [item[0], item[1]]);
@@ -96,6 +97,7 @@ export const resetBoard = (states) => {
     updateGist({ files }).then((resp) => console.log(resp.data));
 
     // Set previous state
+    setGameOver(false);
     setPreviousItems(items);
     setPreviousScore(score);
 

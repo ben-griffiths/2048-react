@@ -62,6 +62,7 @@ function App() {
     setPreviousScore,
     leaderboard,
     username,
+    setGameOver,
   };
 
   const resetBoardFunc = () => {
