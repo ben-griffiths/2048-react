@@ -1,9 +1,6 @@
 name: React app deployment
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
   build:
@@ -11,6 +8,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2
         with:
@@ -23,14 +23,12 @@ jobs:
         run: |
           git config --global user.name $user_name
           git config --global user.email $user_email
-          git remote set-url origin git@github.com:${repository}
+          git config --global credential.helper wincred
 
-          eval `ssh-agent -t 60 -s`
-          echo "$github_token" | ssh-add -
-          mkdir -p ~/.ssh/
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git remote set-url origin https://$user_name:${{ secrets.GITHUB_TOKEN }}@github.com/${repository}
 
-          npm run deploy
+
+          NODE_DEBUG=gh-pages npm run deploy
         env:
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
