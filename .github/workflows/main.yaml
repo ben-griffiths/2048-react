@@ -23,16 +23,12 @@ jobs:
         run: |
           git config --global user.name $user_name
           git config --global user.email $user_email
-          git config --global credential.helper wincred
+          git remote set-url origin https://$user_name:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
-          git remote set-url origin https://$user_name:${{ secrets.GITHUB_TOKEN }}@github.com/${repository}
-
-
-          NODE_DEBUG=gh-pages npm run deploy
+          npm run deploy
         env:
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
-          github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
           REACT_APP_GIST_ID: ${{ secrets.REACT_APP_GIST_ID }}
           REACT_APP_GIST_TOKEN: ${{ secrets.REACT_APP_GIST_TOKEN }}
