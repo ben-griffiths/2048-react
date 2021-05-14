@@ -1,6 +1,9 @@
 name: React app deployment
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -8,9 +11,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          fetch-depth: 0
 
       - uses: actions/setup-node@v2
         with:
@@ -29,6 +29,5 @@ jobs:
         env:
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
-          repository: ${{ github.repository }}
           REACT_APP_GIST_ID: ${{ secrets.REACT_APP_GIST_ID }}
           REACT_APP_GIST_TOKEN: ${{ secrets.REACT_APP_GIST_TOKEN }}
