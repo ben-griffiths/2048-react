@@ -1,0 +1,9 @@
+.header {
+  color: white;
+  font-size: 6vw;
+  text-shadow: 3px 3px #000000;
+}
+
+.on_top {
+  z-index: 1;
+}

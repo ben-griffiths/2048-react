@@ -1,0 +1,19 @@
+.box {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  width: 23%;
+  height: 23%;
+  margin: 1%;
+  border-radius: 10%;
+  transition: all 100ms linear;
+}
+
+.text {
+  font-size: 7vw;
+}
+
+:export {
+  tileColour: var(--quaternary-main);
+}

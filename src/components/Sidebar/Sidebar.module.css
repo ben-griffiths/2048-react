@@ -1,0 +1,40 @@
+.item {
+  margin-top: 10px;
+  padding: 0 0 0 10px;
+  border-radius: 10px;
+  background: var(--secondary-main);
+}
+
+.container {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--tertiary-main);
+}
+
+.header {
+  margin: 0;
+  color: white;
+}
+
+.no_padding {
+  padding: 0;
+}
+
+.little_padding {
+  padding: 10px;
+}
+
+.header_container {
+  background: var(--tertiary-main);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.max_width {
+  width: 100%;
+}
+
+.colour_white {
+  color: white !important;
+}

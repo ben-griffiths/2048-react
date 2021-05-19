@@ -103,7 +103,7 @@ function App() {
       ref={inputRef}
       onKeyDown={handleKeyDown}
       tabIndex={-1}
-      style={{ height: "100vh" }}
+      className="body"
     >
       <Palette>
         <CssBaseline />
@@ -113,7 +113,7 @@ function App() {
           resetBoardFunc={resetBoardFunc}
           undoFunc={undoFunc}
         />
-        <Grid container style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+        <Grid container className="side-padding">
           <Grid container item xs={8}>
             <Header
               score={score}
