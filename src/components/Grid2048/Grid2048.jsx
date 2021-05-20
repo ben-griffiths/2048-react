@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import {
   deepCopy,
@@ -7,24 +6,10 @@ import {
   getRandomNum,
   randomId,
   range,
-} from "../helpers/common";
-import { getGist, updateGist } from "../helpers/gist";
-import GridItem from "./GridItem";
-import { theme } from "./Palette";
-
-const useStyles = makeStyles({
-  box: {
-    width: "100%",
-    maxWidth: "80vh",
-    paddingBottom: "min(100%, 80vh - 35px)",
-    marginTop: "10px",
-    marginBottom: "10px",
-    position: "relative",
-    border: "0.5vw solid ".concat(theme.palette.secondary.main),
-    background: theme.palette.secondary.main,
-    borderRadius: "3%",
-  },
-});
+} from "../../helpers/common";
+import { getGist, updateGist } from "../../helpers/gist";
+import GridItem from "../GridItem";
+import classes from "./Grid2048.module.css";
 
 export const createInitialItems = () => {
   var initialItems = {};
@@ -230,8 +215,7 @@ const isGameOver = (items) => {
   return true;
 };
 
-const Grid2048 = (props) => {
-  const classes = useStyles();
+export const Grid2048 = (props) => {
   const { items, deadItems, setDeadItems, setGameOver } = props;
   const [blankItems] = useState(createInitialBlankItems());
 
@@ -244,7 +228,7 @@ const Grid2048 = (props) => {
   }, [items, setGameOver]);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div className={classes.container}>
       <div className={classes.box} onAnimationEnd={addRandomItem}>
         {Object.keys(blankItems).map((id) => (
           <GridItem items={blankItems} type="blank" key={id} id={id} />
@@ -266,5 +250,3 @@ const Grid2048 = (props) => {
     </div>
   );
 };
-
-export default Grid2048;

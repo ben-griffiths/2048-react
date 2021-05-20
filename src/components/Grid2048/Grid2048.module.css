@@ -1,0 +1,15 @@
+.box {
+  width: 100%;
+  max-width: 80vh;
+  padding-bottom: min(100%, 80vh - 35px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  border: 0.5vw solid var(--secondary-main);
+  background: var(--secondary-main);
+  border-radius: 3%;
+}
+
+.container {
+  width: 100%;
+}

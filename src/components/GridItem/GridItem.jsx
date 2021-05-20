@@ -1,26 +1,10 @@
-import { Box, makeStyles } from "@material-ui/core";
-import classNames from "classnames";
+import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { theme } from "./Palette";
-
-const useStyles = makeStyles({
-  box: {
-    display: "flex",
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "23%",
-    height: "23%",
-    margin: "1%",
-    borderRadius: "10%",
-    transition: "all 100ms linear",
-  },
-});
+import classes, { tileColour } from "./GridItem.module.css";
 
 const toPercentage = (num) => num.toString().concat("%");
 
-const GridItem = (props) => {
-  const classes = useStyles();
+export const GridItem = (props) => {
   const { items, id, type, deadItems, setDeadItems } = props;
   const [bgcolor, setBgColor] = useState(null);
 
@@ -36,7 +20,7 @@ const GridItem = (props) => {
         }, 100);
         break;
       case "blank":
-        setBgColor(theme.palette.quaternary.main);
+        setBgColor(tileColour);
         break;
       default:
         setBgColor("blue");
@@ -56,14 +40,8 @@ const GridItem = (props) => {
   var top = toPercentage(y * 25);
 
   return (
-    <Box
-      bgcolor={bgcolor}
-      className={classNames(classes.box, classes.fadeIn)}
-      style={{ top, left }}
-    >
-      {type === "blank" ? null : <h1 style={{ fontSize: "7vw" }}> {val} </h1>}
+    <Box bgcolor={bgcolor} className={classes.box} style={{ top, left }}>
+      {type === "blank" ? null : <h1 className={classes.text}> {val} </h1>}
     </Box>
   );
 };
-
-export default GridItem;
