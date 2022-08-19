@@ -44,6 +44,12 @@
 .side-padding {
   padding-left: 10px;
   padding-right: 10px;
+  display: flex;
+  width: 100vw;
+}
+
+.container {
+  width: 100vw;
 }
 
 :root {

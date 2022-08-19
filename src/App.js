@@ -113,8 +113,8 @@ function App() {
           resetBoardFunc={resetBoardFunc}
           undoFunc={undoFunc}
         />
-        <Grid container className="side-padding">
-          <Grid container item xs={8}>
+        <div className="side-padding">
+          <div className="container">
             <Header
               score={score}
               highScore={highScore}
@@ -127,11 +127,9 @@ function App() {
               setDeadItems={setDeadItems}
               setGameOver={setGameOver}
             />
-          </Grid>
-          <Grid item xs={4}>
-            <Sidebar leaderboard={leaderboard} username={username} />
-          </Grid>
-        </Grid>
+          </div>
+          <Sidebar leaderboard={leaderboard} username={username} />
+        </div>
       </Palette>
     </div>
   );
