@@ -1,38 +1,21 @@
-import { Box } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import classes from "./GridItem.module.css";
 
 const toPercentage = (num) => num.toString().concat("%");
 
 export const GridItem = (props) => {
   const { items, id, type, deadItems, setDeadItems } = props;
-  const [bgcolor, setBgColor] = useState(null);
 
   useEffect(() => {
-    let colTimeOut;
-    switch (type) {
-      case "dead":
-        setBgColor("red");
+    if (type === "dead") {
         setTimeout(() => {
           const temp = { ...deadItems };
           delete temp[id];
           setDeadItems(temp);
         }, 100);
-        break;
-      case "blank":
-        setBgColor(classes.tileColour);
-        break;
-      default:
-        setBgColor("blue");
-        colTimeOut = setTimeout(() => {
-          setBgColor("white");
-        }, 100);
-        break;
     }
-    return () => {
-      clearTimeout(colTimeOut);
-    };
-  }, [type, deadItems, id, setBgColor, setDeadItems]);
+
+  }, [type, deadItems, id, setDeadItems]);
 
   var [x, y, val] = items[id];
 
@@ -40,8 +23,8 @@ export const GridItem = (props) => {
   var top = toPercentage(y * 25);
 
   return (
-    <Box bgcolor={bgcolor} className={classes.box} style={{ top, left }}>
+    <div  className={classes.box} style={{ top, left }}>
       {type === "blank" ? null : <h1 className={classes.text}> {val} </h1>}
-    </Box>
+    </div>
   );
 };

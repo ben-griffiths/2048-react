@@ -1,5 +1,3 @@
-import { Button, CircularProgress } from "@material-ui/core";
-import { Refresh, Undo } from "@material-ui/icons";
 import classNames from "classnames";
 import React from "react";
 import classes from "./Header.module.css";
@@ -18,7 +16,7 @@ const ScoreBox = (props) => {
           {score}
         </h2>
       ) : (
-        <CircularProgress className={classes.font_size_2_5vw} />
+        <div className={classes.font_size_2_5vw} />
       )}
     </div>
   );
@@ -34,17 +32,10 @@ export const Header = (props) => {
         <ScoreBox title="Highscore" score={highScore} />
       </div>
       <div className={classes.actionBar}>
-        <Button variant="contained" color="secondary" onClick={undoFunc}>
-          <Undo className={classes.colour_white} />
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={resetBoardFunc}
-          className={classes.refresh_button}
-        >
-          <Refresh className={classes.colour_white} />
-        </Button>
+        <button onClick={undoFunc}>Undo</button>
+        <button onClick={resetBoardFunc} className={classes.refresh_button}>
+          Reset
+        </button>
       </div>
     </div>
   );

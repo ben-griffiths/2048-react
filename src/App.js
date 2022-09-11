@@ -1,4 +1,3 @@
-import { CssBaseline, Grid } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import GameOver from "./components/GameOver";
@@ -9,7 +8,6 @@ import Grid2048, {
   undo,
 } from "./components/Grid2048";
 import Header from "./components/Header";
-import Palette from "./components/Palette";
 import Sidebar from "./components/Sidebar";
 import { KEY_BINDINGS, randomName } from "./helpers/common";
 import { getGist } from "./helpers/gist";
@@ -105,32 +103,29 @@ function App() {
       tabIndex={-1}
       className="body"
     >
-      <Palette>
-        <CssBaseline />
-        <GameOver
-          gameOver={gameOver}
-          setGameOver={setGameOver}
-          resetBoardFunc={resetBoardFunc}
-          undoFunc={undoFunc}
-        />
-        <div className="side-padding">
-          <div className="container">
-            <Header
-              score={score}
-              highScore={highScore}
-              resetBoardFunc={resetBoardFunc}
-              undoFunc={undoFunc}
-            />
-            <Grid2048
-              items={items}
-              deadItems={deadItems}
-              setDeadItems={setDeadItems}
-              setGameOver={setGameOver}
-            />
-          </div>
-          <Sidebar leaderboard={leaderboard} username={username} />
+      <GameOver
+        gameOver={gameOver}
+        setGameOver={setGameOver}
+        resetBoardFunc={resetBoardFunc}
+        undoFunc={undoFunc}
+      />
+      <div className="side-padding">
+        <div className="container">
+          <Header
+            score={score}
+            highScore={highScore}
+            resetBoardFunc={resetBoardFunc}
+            undoFunc={undoFunc}
+          />
+          <Grid2048
+            items={items}
+            deadItems={deadItems}
+            setDeadItems={setDeadItems}
+            setGameOver={setGameOver}
+          />
         </div>
-      </Palette>
+        <Sidebar leaderboard={leaderboard} username={username} />
+      </div>
     </div>
   );
 }

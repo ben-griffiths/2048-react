@@ -8,12 +8,14 @@
   margin: 1%;
   border-radius: 10%;
   transition: all 100ms linear;
+  background-color: white;
 }
 
+.box:empty {
+  background-color: var(--quaternary-main)
+}
+ 
 .text {
   font-size: 7vw;
 }
 
-:export {
-  tileColour: var(--quaternary-main);
-}

@@ -1,10 +1,3 @@
-import {
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemText,
-  TextField,
-} from "@material-ui/core";
 import React from "react";
 import { range } from "../../helpers/common";
 import classes from "./Sidebar.module.css";
@@ -14,30 +7,26 @@ export const Sidebar = (props) => {
   return (
     <div className={classes.little_padding}>
       <div className={classes.header_container}>
-        <TextField
-          id="standard-basic"
-          label="Name"
-          InputProps={{ className: classes.colour_white }}
-          defaultValue={username}
-        />
+        <div>
+          <span className={classes.colour_white}>Name:</span>
+          <input id="standard-basic" value={username} />
+        </div>
       </div>
       <div className={classes.container}>
         <h1 className={classes.header}>LeaderBoard</h1>
-        <List className={classes.no_padding}>
+        <div className={classes.no_padding}>
           {leaderboard ? (
             range(leaderboard.length).map((x) => (
-              <ListItem className={classes.item}>
-                <ListItemText primary={`${x + 1}.`} />
-                <ListItemText
-                  primary={leaderboard[x]["name"]}
-                  secondary={leaderboard[x]["score"]}
-                />
-              </ListItem>
+              <div className={classes.item}>
+                <span>{`${x + 1}.`}</span>
+                <span>{leaderboard[x]["name"]}</span>
+                <span>{leaderboard[x]["score"]}</span>  
+              </div>
             ))
           ) : (
-            <CircularProgress size="2.5vw" />
+            <div size="2.5vw" />
           )}
-        </List>
+        </div>
       </div>
     </div>
   );
