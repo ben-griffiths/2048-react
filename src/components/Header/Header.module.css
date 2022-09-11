@@ -13,6 +13,7 @@
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  gap: 5px
 }
 .box {
   margin-left: 10px;
@@ -29,11 +30,6 @@
 .main_header {
   margin: 0 auto 0 0;
   font-size: min(6vw, 60px);
-}
-
-.refresh_button {
-  margin-left: 10px !important;
-  z-index: 10;
 }
 
 .colour_white {

@@ -42,10 +42,10 @@
 }
 
 .side-padding {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline: 15px;
   display: flex;
   width: 100vw;
+  box-sizing: border-box;
 }
 
 .container {

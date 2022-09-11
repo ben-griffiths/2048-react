@@ -1,0 +1,10 @@
+.button {
+    background-color: var(--tertiary-main);  
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding-inline: 10px;
+    padding-block: 5px;
+    font-size: 1.5vw;
+    font-weight: bold;
+}

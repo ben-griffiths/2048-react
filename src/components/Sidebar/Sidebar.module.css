@@ -1,8 +1,11 @@
 .item {
   margin-top: 10px;
   padding: 0 0 0 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--secondary-main);
+  height: 25px;
+  align-items: center;
+  display: flex;
 }
 
 .container {
@@ -23,18 +26,37 @@
 
 .little_padding {
   padding: 10px;
+  padding-right: 0;
 }
 
-.header_container {
+.name_container {
   background: var(--tertiary-main);
   padding: 10px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .max_width {
   width: 100%;
 }
 
-.colour_white {
+.name {
   color: white !important;
+  font-weight: bold;
+}
+
+.name_input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  margin-top: 5x;
+  font-size: 2vw;
+  outline: none;
+  border-bottom: 2px solid var(--quaternary-main);
+  border-radius: 2px;
+}
+
+.name_input:focus {
+  border-color: white;
 }

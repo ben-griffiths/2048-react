@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { range } from "../../helpers/common";
 import classes from "./Sidebar.module.css";
 
 export const Sidebar = (props) => {
   const { leaderboard, username } = props;
+  const [name, setName] = useState(username)
   return (
     <div className={classes.little_padding}>
-      <div className={classes.header_container}>
-        <div>
-          <span className={classes.colour_white}>Name:</span>
-          <input id="standard-basic" value={username} />
-        </div>
+      <div className={classes.name_container}>
+          <span className={classes.name}>Name:</span>
+          <input className={classes.name_input} value={name} onChange={(event) => { console.log(event); setName(event.target.value) } } />
       </div>
       <div className={classes.container}>
         <h1 className={classes.header}>LeaderBoard</h1>

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import { Button } from "../Button/Button";
 import classes from "./Header.module.css";
 
 const ScoreBox = (props) => {
@@ -32,10 +33,10 @@ export const Header = (props) => {
         <ScoreBox title="Highscore" score={highScore} />
       </div>
       <div className={classes.actionBar}>
-        <button onClick={undoFunc}>Undo</button>
-        <button onClick={resetBoardFunc} className={classes.refresh_button}>
+        <Button onClick={undoFunc}>Undo</Button>
+        <Button onClick={resetBoardFunc}>
           Reset
-        </button>
+        </Button>
       </div>
     </div>
   );
