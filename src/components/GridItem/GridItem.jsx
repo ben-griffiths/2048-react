@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import classes, { tileColour } from "./GridItem.module.css";
+import classes from "./GridItem.module.css";
 
 const toPercentage = (num) => num.toString().concat("%");
 
@@ -20,7 +20,7 @@ export const GridItem = (props) => {
         }, 100);
         break;
       case "blank":
-        setBgColor(tileColour);
+        setBgColor(classes.tileColour);
         break;
       default:
         setBgColor("blue");
