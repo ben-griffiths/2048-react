@@ -23,7 +23,7 @@ export const GridItem = (props) => {
   var top = toPercentage(y * 25);
 
   return (
-    <div  className={classes.box} style={{ top, left }}>
+    <div data-testid={`grid-item-${type}`} className={classes.box} style={{ top, left }}>
       {type === "blank" ? null : <h1 className={classes.text}> {val} </h1>}
     </div>
   );

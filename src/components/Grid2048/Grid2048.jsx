@@ -32,7 +32,7 @@ export const Grid2048 = (props) => {
           />
         ))}
         {Object.keys(items).map((id) => (
-          <GridItem items={items} key={id} id={id} />
+          <GridItem items={items} key={id} id={id} type="number" />
         ))}
       </div>
     </div>

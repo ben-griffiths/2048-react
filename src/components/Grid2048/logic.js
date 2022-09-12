@@ -29,7 +29,13 @@ const isSpaceTaken = (coords, items) => {
   return false;
 };
 
-export const createInitialItems = () => {
+export const createInitialItems = (initialCoords) => {
+  if (initialCoords)
+    return initialCoords.reduce((acc, coord) => {
+      acc[randomId()] = coord;
+      return acc;
+    }, {});
+
   var initialItems = {};
   const setInitialItems = (someItems) => (initialItems = someItems);
 
@@ -116,9 +122,9 @@ export const shift = (direction, states) => {
 
     setScore(newScore);
 
-    setTimeout(() => {
-      addRandomItem(newItems, setItems);
-    }, 1);
+    // setTimeout(() => {
+    addRandomItem(newItems, setItems);
+    // }, 1);
   }
 };
 

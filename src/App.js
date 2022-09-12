@@ -9,11 +9,11 @@ import Grid2048, {
 } from "./components/Grid2048";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { KEY_BINDINGS, randomName } from "./helpers/common";
+import { randomName } from "./helpers/common";
 import { getGist } from "./helpers/gist";
 
-function App() {
-  const [items, setItems] = useState(createInitialItems());
+function App({ initialCoords }) {
+  const [items, setItems] = useState(createInitialItems(initialCoords));
   const [score, setScore] = useState(0);
   const [deadItems, setDeadItems] = useState({});
   const [highScore, setHighScore] = useState(-1);
@@ -78,17 +78,17 @@ function App() {
   });
 
   const handleKeyDown = (event) => {
-    switch (event.keyCode) {
-      case KEY_BINDINGS.KEY_LEFT:
+    switch (event.code) {
+      case "ArrowLeft":
         shift("left", states);
         break;
-      case KEY_BINDINGS.KEY_UP:
+      case "ArrowUp":
         shift("up", states);
         break;
-      case KEY_BINDINGS.KEY_RIGHT:
+      case "ArrowRight":
         shift("right", states);
         break;
-      case KEY_BINDINGS.KEY_DOWN:
+      case "ArrowDown":
         shift("down", states);
         break;
       default:
@@ -102,6 +102,7 @@ function App() {
       onKeyDown={handleKeyDown}
       tabIndex={-1}
       className="body"
+      data-testid="capture"
     >
       <GameOver
         gameOver={gameOver}
