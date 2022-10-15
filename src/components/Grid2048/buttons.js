@@ -1,4 +1,4 @@
-import { addDeadItem, createInitialItems } from ".";
+import { createInitialItems } from ".";
 import { getGist, updateGist } from "../../helpers/gist";
 
 export const resetBoard = (states) => {
@@ -7,8 +7,6 @@ export const resetBoard = (states) => {
     setItems,
     score,
     setScore,
-    deadItems,
-    setDeadItems,
     highScore,
     setHighScore,
     setPreviousItems,
@@ -16,9 +14,6 @@ export const resetBoard = (states) => {
     username,
     setGameOver,
   } = states;
-  for (var [id, item] of Object.entries(items)) {
-    addDeadItem(deadItems, setDeadItems, id, [item[0], item[1]]);
-  }
 
   getGist().then((resp) => {
     const leaderboard = JSON.parse(resp.data.files["Leaderboard.json"].content);

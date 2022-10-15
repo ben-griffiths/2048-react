@@ -9,10 +9,10 @@ import {
 
 const createGrid = (items, invertAxis = false) => {
   const lines = [[], [], [], []];
-  for (var [id, item] of Object.entries(deepCopy(items))) {
+  for (let [id, item] of Object.entries(deepCopy(items))) {
     lines[item[invertAxis ? 0 : 1]].push([id, item]);
   }
-  for (var i = 0; i < 4; i++) {
+  for (let i = 0; i < 4; i++) {
     lines[i].sort(
       (a, b) => a[1][invertAxis ? 1 : 0] - b[1][invertAxis ? 1 : 0]
     );
@@ -55,65 +55,87 @@ export const addRandomItem = (items, setItems) => {
   setItems({ ...items, [randomId()]: [...coords, getRandomNum()] });
 };
 
-export const addDeadItem = (deadItems, setDeadItems, itemId, itemPos) => {
-  setDeadItems({ ...deadItems, [itemId]: itemPos });
-};
-
 export const shift = (direction, states) => {
   const {
     items,
     setItems,
     score,
     setScore,
-    deadItems,
-    setDeadItems,
     setPreviousItems,
     setPreviousScore,
   } = states;
+  const newItems = deepCopy(items);
+  let newScore = 0;
 
-  const coordIndex = ["left", "right"].includes(direction) ? 0 : 1;
-  let newScore = score;
+  for (let i = 0; i < 4; i++) {
+    let missing_count = 0;
+    for (let f = 0; f < 4; f++) {
+      const j = ["right", "down"].includes(direction) ? 3 - f : f;
 
-  // Create grid of items
-  const lines = createGrid(items, coordIndex === 1);
+      let key;
+      if (["left", "right"].includes(direction)) {
+        key = Object.keys(newItems).find(
+          (k) => newItems[k][0] === j && newItems[k][1] === i
+        );
+      } else {
+        key = Object.keys(newItems).find(
+          (k) => newItems[k][0] === i && newItems[k][1] === j
+        );
+      }
 
-  const newItems = {};
-  for (var i = 0; i < lines.length; i++) {
-    const line = lines[i];
+      if (key) {
+        let adjKey;
+        if (direction === "left") {
+          adjKey = Object.keys(newItems).find(
+            (k) =>
+              newItems[k][0] === j - 1 - missing_count &&
+              newItems[k][1] === i &&
+              newItems[k][2] === newItems[key][2]
+          );
+        } else if (direction === "right") {
+          adjKey = Object.keys(newItems).find(
+            (k) =>
+              newItems[k][0] === j + 1 + missing_count &&
+              newItems[k][1] === i &&
+              newItems[k][2] === newItems[key][2]
+          );
+        } else if (direction === "up") {
+          adjKey = Object.keys(newItems).find(
+            (k) =>
+              newItems[k][0] === i &&
+              newItems[k][1] === j - 1 - missing_count &&
+              newItems[k][2] === newItems[key][2]
+          );
+        } else if (direction === "down") {
+          adjKey = Object.keys(newItems).find(
+            (k) =>
+              newItems[k][0] === i &&
+              newItems[k][1] === j + 1 + missing_count &&
+              newItems[k][2] === newItems[key][2]
+          );
+        }
 
-    // Sort line into helpful order
-    line.sort((a, b) => a[1][coordIndex] - b[1][coordIndex]);
-
-    // Combine items in line if possible
-    for (var k = 1; k < line.length; k++) {
-      // If adjacent tile (in direction of shift) has the same value
-      if (line[k][1][2] === line[k - 1][1][2]) {
-        // Remove item
-        line[k][1][2] = line[k][1][2] * 2;
-        newScore += line[k][1][2];
-        addDeadItem(deadItems, setDeadItems, ...line[k - 1]);
-        line.splice(k - 1, 1);
+        if (adjKey) {
+          newItems[adjKey][2] += newItems[key][2];
+          newScore += newItems[key][2];
+          delete newItems[key];
+          missing_count++;
+        } else {
+          if (direction === "left") {
+            newItems[key][0] -= missing_count;
+          } else if (direction === "right") {
+            newItems[key][0] += missing_count;
+          } else if (direction === "up") {
+            newItems[key][1] -= missing_count;
+          } else if (direction === "down") {
+            newItems[key][1] += missing_count;
+          }
+        }
+      } else {
+        missing_count++;
       }
     }
-
-    // Sort line into correct order (if not already)
-    if (["right", "down"].includes(direction)) {
-      line.reverse();
-    }
-
-    // Translate grid indexes to coordinates
-    for (var j = 0; j < line.length; j++) {
-      const [key, item2] = line[j];
-
-      const newJ = ["right", "down"].includes(direction) ? 3 - j : j;
-
-      newItems[key] = [];
-      newItems[key][1 - coordIndex] = i;
-      newItems[key][coordIndex] = newJ;
-      newItems[key][2] = item2[2];
-    }
   }
-
   // Add item to the grid
   if (!equals(Object.values(newItems), Object.values(items))) {
     // Set previous state
@@ -122,9 +144,7 @@ export const shift = (direction, states) => {
 
     setScore(newScore);
 
-    // setTimeout(() => {
     addRandomItem(newItems, setItems);
-    // }, 1);
   }
 };
 

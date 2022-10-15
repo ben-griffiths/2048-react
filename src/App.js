@@ -15,7 +15,6 @@ import { getGist } from "./helpers/gist";
 function App({ initialCoords }) {
   const [items, setItems] = useState(createInitialItems(initialCoords));
   const [score, setScore] = useState(0);
-  const [deadItems, setDeadItems] = useState({});
   const [highScore, setHighScore] = useState(-1);
   const [previousItems, setPreviousItems] = useState(items);
   const [previousScore, setPreviousScore] = useState(score);
@@ -50,8 +49,6 @@ function App({ initialCoords }) {
     setItems,
     score,
     setScore,
-    deadItems,
-    setDeadItems,
     highScore,
     setHighScore,
     previousItems,
@@ -118,12 +115,7 @@ function App({ initialCoords }) {
             resetBoardFunc={resetBoardFunc}
             undoFunc={undoFunc}
           />
-          <Grid2048
-            items={items}
-            deadItems={deadItems}
-            setDeadItems={setDeadItems}
-            setGameOver={setGameOver}
-          />
+          <Grid2048 items={items} setGameOver={setGameOver} />
         </div>
         <Sidebar leaderboard={leaderboard} username={username} />
       </div>
