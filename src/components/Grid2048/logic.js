@@ -66,9 +66,10 @@ export const shift = (direction, states) => {
   } = states;
   const newItems = deepCopy(items);
   let newScore = score;
+  let missing_count;
 
   for (let i = 0; i < 4; i++) {
-    let missing_count = 0;
+    missing_count = 0;
     for (let f = 0; f < 4; f++) {
       const j = ["right", "down"].includes(direction) ? 3 - f : f;
 
@@ -84,37 +85,20 @@ export const shift = (direction, states) => {
       }
 
       if (key) {
-        let adjKey;
+        let adjValue;
         if (direction === "left") {
-          adjKey = Object.keys(newItems).find(
-            (k) =>
-              newItems[k][0] === j - 1 - missing_count &&
-              newItems[k][1] === i &&
-              newItems[k][2] === newItems[key][2]
-          );
+          adjValue = [j - 1 - missing_count, i, newItems[key][2]];
         } else if (direction === "right") {
-          adjKey = Object.keys(newItems).find(
-            (k) =>
-              newItems[k][0] === j + 1 + missing_count &&
-              newItems[k][1] === i &&
-              newItems[k][2] === newItems[key][2]
-          );
+          adjValue = [j + 1 + missing_count, i, newItems[key][2]];
         } else if (direction === "up") {
-          adjKey = Object.keys(newItems).find(
-            (k) =>
-              newItems[k][0] === i &&
-              newItems[k][1] === j - 1 - missing_count &&
-              newItems[k][2] === newItems[key][2]
-          );
+          adjValue = [i, j - 1 - missing_count, newItems[key][2]];
         } else if (direction === "down") {
-          adjKey = Object.keys(newItems).find(
-            (k) =>
-              newItems[k][0] === i &&
-              newItems[k][1] === j + 1 + missing_count &&
-              newItems[k][2] === newItems[key][2]
-          );
+          adjValue = [i, j + 1 + missing_count, newItems[key][2]];
         }
 
+        const adjKey = Object.keys(newItems).find(
+          (k) => newItems[k].toString() === adjValue.toString()
+        );
         if (adjKey) {
           newItems[adjKey][2] += newItems[key][2];
           delete newItems[key];

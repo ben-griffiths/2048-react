@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import classes from "./GridItem.module.css";
 
 const toPercentage = (num) => num.toString().concat("%");
