@@ -65,7 +65,7 @@ export const shift = (direction, states) => {
     setPreviousScore,
   } = states;
   const newItems = deepCopy(items);
-  let newScore = 0;
+  let newScore = score;
 
   for (let i = 0; i < 4; i++) {
     let missing_count = 0;
@@ -117,8 +117,8 @@ export const shift = (direction, states) => {
 
         if (adjKey) {
           newItems[adjKey][2] += newItems[key][2];
-          newScore += newItems[key][2];
           delete newItems[key];
+          newScore += newItems[adjKey][2];
           missing_count++;
         } else {
           if (direction === "left") {
