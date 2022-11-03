@@ -10,31 +10,17 @@ import Grid2048, {
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { randomName } from "./helpers/common";
-import { getGist } from "./helpers/gist";
 
 function App({ initialCoords }) {
   const [items, setItems] = useState(createInitialItems(initialCoords));
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(-1);
+  const [highScore, setHighScore] = useState(0);
   const [previousItems, setPreviousItems] = useState(items);
   const [previousScore, setPreviousScore] = useState(score);
   const [gameOver, setGameOver] = useState(false);
   const [timer, setTimer] = useState(null);
   const [leaderboard, setLeaderboard] = useState(null);
-  const [username] = useState(randomName());
-
-  useEffect(() => {
-    getGist().then((resp) => {
-      const newHighScore = parseInt(resp.data.files["Highscore.txt"].content);
-      if (newHighScore > highScore) {
-        setHighScore(newHighScore);
-      }
-      const newLeaderboard = JSON.parse(
-        resp.data.files["Leaderboard.json"].content
-      );
-      setLeaderboard(newLeaderboard);
-    });
-  }, [highScore, timer]);
+  const [username, setUsername] = useState(randomName());
 
   useEffect(() => {
     if (!timer) {
@@ -57,12 +43,19 @@ function App({ initialCoords }) {
     setPreviousScore,
     leaderboard,
     username,
+    setUsername,
     setGameOver,
+    setLeaderboard,
+    initialCoords,
   };
 
   const resetBoardFunc = () => {
     resetBoard(states);
   };
+
+  useEffect(() => {
+    resetBoardFunc();
+  }, []);
 
   const undoFunc = () => {
     undo(states);
@@ -72,7 +65,7 @@ function App({ initialCoords }) {
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, []);
 
   const handleKeyDown = (event) => {
     switch (event.code) {
@@ -117,7 +110,11 @@ function App({ initialCoords }) {
           />
           <Grid2048 items={items} setGameOver={setGameOver} />
         </div>
-        <Sidebar leaderboard={leaderboard} username={username} />
+        <Sidebar
+          leaderboard={leaderboard}
+          username={username}
+          setUsername={setUsername}
+        />
       </div>
     </div>
   );

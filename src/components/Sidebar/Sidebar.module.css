@@ -1,11 +1,15 @@
 .item {
   margin-top: 10px;
-  padding: 0 0 0 10px;
+  padding: 0 10px 0 10px;
   border-radius: 8px;
   background: var(--secondary-main);
   height: 25px;
   align-items: center;
   display: flex;
+}
+
+.item_name {
+  flex-grow: 1;
 }
 
 .container {

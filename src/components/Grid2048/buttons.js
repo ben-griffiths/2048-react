@@ -1,7 +1,7 @@
 import { createInitialItems } from ".";
 import { getGist, updateGist } from "../../helpers/gist";
 
-export const resetBoard = (states) => {
+export const resetBoard = async (states) => {
   const {
     items,
     setItems,
@@ -13,34 +13,43 @@ export const resetBoard = (states) => {
     setPreviousScore,
     username,
     setGameOver,
+    initialCoords,
+    setLeaderboard,
   } = states;
 
-  getGist().then((resp) => {
-    const leaderboard = JSON.parse(resp.data.files["Leaderboard.json"].content);
+  const response = await getGist().catch(() => null);
 
-    const newLeaderboard = [...leaderboard, { name: username, score: score }]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10);
-    let files = {
-      "Leaderboard.json": {
-        content: JSON.stringify(newLeaderboard),
-      },
-    };
-    if (highScore < score) {
-      setHighScore(score);
-      files["Highscore.txt"] = { content: score.toString() };
-    }
+  const leaderboard = response
+    ? JSON.parse(response.data.files["Leaderboard.json"].content)
+    : [];
 
-    updateGist({ files }).then((resp) => console.log(resp.data));
+  const newLeaderboard = [...leaderboard, { name: username, score: score }]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
 
-    // Set previous state
-    setGameOver(false);
-    setPreviousItems(items);
-    setPreviousScore(score);
+  let files = {
+    "Leaderboard.json": {
+      content: JSON.stringify(newLeaderboard),
+    },
+  };
 
-    setScore(0);
-    setItems(createInitialItems());
-  });
+  if (highScore < score) {
+    setHighScore(score);
+    files["Highscore.txt"] = { content: score.toString() };
+  }
+
+  updateGist({ files })
+    .then((resp) => console.log(resp.data))
+    .catch((resp) => console.log(resp.data));
+
+  // Set previous state
+  setGameOver(false);
+  setPreviousItems(items);
+  setPreviousScore(score);
+  setLeaderboard(newLeaderboard);
+
+  setScore(0);
+  setItems(createInitialItems(initialCoords));
 };
 
 export const undo = (states) => {
