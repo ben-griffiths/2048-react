@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import GameOver from "./components/GameOver";
 import Grid2048, {
@@ -30,32 +30,52 @@ function App({ initialCoords }) {
     }
   }, [timer, setTimer]);
 
-  const states = {
-    items,
-    setItems,
-    score,
-    setScore,
-    highScore,
-    setHighScore,
-    previousItems,
-    setPreviousItems,
-    previousScore,
-    setPreviousScore,
-    leaderboard,
-    username,
-    setUsername,
-    setGameOver,
-    setLeaderboard,
-    initialCoords,
-  };
-
-  const resetBoardFunc = () => {
-    resetBoard(states);
-  };
+  const states = useMemo(
+    () => ({
+      items,
+      setItems,
+      score,
+      setScore,
+      highScore,
+      setHighScore,
+      previousItems,
+      setPreviousItems,
+      previousScore,
+      setPreviousScore,
+      leaderboard,
+      username,
+      setUsername,
+      setGameOver,
+      setLeaderboard,
+      initialCoords,
+    }),
+    [
+      items,
+      setItems,
+      score,
+      setScore,
+      highScore,
+      setHighScore,
+      previousItems,
+      setPreviousItems,
+      previousScore,
+      setPreviousScore,
+      leaderboard,
+      username,
+      setUsername,
+      setGameOver,
+      setLeaderboard,
+      initialCoords,
+    ]
+  );
 
   useEffect(() => {
-    resetBoardFunc();
-  }, []);
+    const onPageLoad = () => {
+      resetBoard(states);
+    };
+    window.addEventListener("load", onPageLoad);
+    return () => window.removeEventListener("load", onPageLoad);
+  }, [states]);
 
   const undoFunc = () => {
     undo(states);
@@ -97,7 +117,7 @@ function App({ initialCoords }) {
       <GameOver
         gameOver={gameOver}
         setGameOver={setGameOver}
-        resetBoardFunc={resetBoardFunc}
+        resetBoardFunc={() => resetBoard(states)}
         undoFunc={undoFunc}
       />
       <div className="side-padding">
@@ -105,7 +125,7 @@ function App({ initialCoords }) {
           <Header
             score={score}
             highScore={highScore}
-            resetBoardFunc={resetBoardFunc}
+            resetBoardFunc={() => resetBoard(states)}
             undoFunc={undoFunc}
           />
           <Grid2048 items={items} setGameOver={setGameOver} />

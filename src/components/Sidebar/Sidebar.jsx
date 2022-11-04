@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { range } from "../../helpers/common";
 import classes from "./Sidebar.module.css";
 
