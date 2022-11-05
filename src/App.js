@@ -106,10 +106,53 @@ function App({ initialCoords }) {
     }
   };
 
+  let xDown = null;
+  let yDown = null;
+
+  function getTouches(evt) {
+    return evt.touches || evt.originalEvent.touches;
+  }
+
+  function handleTouchStart(event) {
+    const firstTouch = getTouches(event)[0];
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+  }
+
+  function handleTouchMove(evt) {
+    if (!xDown || !yDown) {
+      return;
+    }
+
+    let xUp = evt.touches[0].clientX;
+    let yUp = evt.touches[0].clientY;
+
+    let xDiff = xDown - xUp;
+    let yDiff = yDown - yUp;
+
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      if (xDiff > 0) {
+        shift("left", states);
+      } else {
+        shift("right", states);
+      }
+    } else {
+      if (yDiff > 0) {
+        shift("up", states);
+      } else {
+        shift("down", states);
+      }
+    }
+    xDown = null;
+    yDown = null;
+  }
+
   return (
     <div
       ref={inputRef}
       onKeyDown={handleKeyDown}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       tabIndex={-1}
       className="body"
       data-testid="capture"

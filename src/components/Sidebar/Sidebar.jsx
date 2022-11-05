@@ -19,7 +19,7 @@ export const Sidebar = (props) => {
             range(leaderboard.length).map((x) => (
               <div className={classes.item}>
                 <span>{`${x + 1}.`}</span>
-                <span class={classes.item_name}>{leaderboard[x]["name"]}</span>
+                <div class={classes.item_name}><span>{leaderboard[x]["name"]}</span></div>
                 <span>{leaderboard[x]["score"]}</span>  
               </div>
             ))
