@@ -84,6 +84,7 @@ function App({ initialCoords }) {
 
   const undoFunc = () => {
     undo(states);
+    setGameOver(false);
   };
 
   const inputRef = useRef();
