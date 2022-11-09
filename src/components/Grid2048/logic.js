@@ -55,7 +55,7 @@ export const addRandomItem = (items, setItems) => {
   setItems({ ...items, [randomId()]: [...coords, getRandomNum()] });
 };
 
-export const shift = (direction, states) => {
+export const shift = async (direction, states) => {
   const {
     items,
     setItems,
@@ -63,6 +63,7 @@ export const shift = (direction, states) => {
     setScore,
     setPreviousItems,
     setPreviousScore,
+    setDeadItems,
   } = states;
   const newItems = deepCopy(items);
   let newScore = score;
@@ -100,8 +101,14 @@ export const shift = (direction, states) => {
           (k) => newItems[k].toString() === adjValue.toString()
         );
         if (adjKey) {
+          await setDeadItems((deadItems) => ({
+            ...deadItems,
+            [key]: [...newItems[adjKey]],
+          }));
           newItems[adjKey][2] += newItems[key][2];
+
           delete newItems[key];
+
           newScore += newItems[adjKey][2];
           missing_count++;
         } else {

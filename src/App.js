@@ -13,6 +13,7 @@ import { randomName } from "./helpers/common";
 
 function App({ initialCoords }) {
   const [items, setItems] = useState(createInitialItems(initialCoords));
+  const [deadItems, setDeadItems] = useState({});
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [previousItems, setPreviousItems] = useState(items);
@@ -48,6 +49,8 @@ function App({ initialCoords }) {
       setGameOver,
       setLeaderboard,
       initialCoords,
+      deadItems,
+      setDeadItems,
     }),
     [
       items,
@@ -66,6 +69,8 @@ function App({ initialCoords }) {
       setGameOver,
       setLeaderboard,
       initialCoords,
+      deadItems,
+      setDeadItems,
     ]
   );
 
@@ -171,7 +176,12 @@ function App({ initialCoords }) {
             resetBoardFunc={() => resetBoard(states)}
             undoFunc={undoFunc}
           />
-          <Grid2048 items={items} setGameOver={setGameOver} />
+          <Grid2048
+            items={items}
+            deadItems={deadItems}
+            setDeadItems={setDeadItems}
+            setGameOver={setGameOver}
+          />
         </div>
         <Sidebar
           leaderboard={leaderboard}
