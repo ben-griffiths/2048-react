@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./GridItem.module.css";
 
 const toPercentage = (num) => num.toString().concat("%");
 
 export const GridItem = (props) => {
   const { items, id, type } = props;
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const val = items[id]?.[2];
 
-  React.useEffect(() => {
+  useEffect(() => {
     setExpanded(true);
     setTimeout(() => setExpanded(false), 100);
-  }, [items[id]?.[2]]);
+  }, [val]);
 
   if (!(id in items)) return null;
-  var [x, y, val] = items[id];
+  var [x, y] = items[id];
 
   var left = toPercentage(x * 25);
   var top = toPercentage(y * 25);
