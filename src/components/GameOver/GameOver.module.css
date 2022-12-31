@@ -25,3 +25,9 @@
   justify-items: center;
   align-items: center;
 }
+
+.button {
+  background-color: "black";
+  padding-inline: "10%";
+  padding-block: "3%";
+}

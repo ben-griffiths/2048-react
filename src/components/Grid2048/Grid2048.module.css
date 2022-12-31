@@ -5,8 +5,8 @@
   margin-top: 10px;
   margin-bottom: 10px;
   position: relative;
-  border: 0.5vw solid var(--secondary-main);
-  background: var(--secondary-main);
+  border: 0.5vw solid var(--primary-main);
+  background: var(--primary-main);
   border-radius: 3%;
 }
 

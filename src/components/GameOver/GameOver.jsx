@@ -12,14 +12,7 @@ export const GameOver = (props) => {
     >
       <div className={classes.header}>
         <h1>Game Over</h1>
-        <Button
-          style={{
-            backgroundColor: "black",
-            paddingInline: "10%",
-            paddingBlock: "3%",
-          }}
-          onClick={resetBoardFunc}
-        >
+        <Button className={classes.button} onClick={resetBoardFunc}>
           Reset
         </Button>
       </div>

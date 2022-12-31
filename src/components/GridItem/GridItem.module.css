@@ -7,9 +7,10 @@
   height: 23%;
   margin: 1%;
   border-radius: 10%;
-  transition: all 100ms linear;
+  transition: all 150ms linear;
   background-color: white;
   z-index: 1000;
+  color: white
 }
 
 .red {
@@ -18,10 +19,63 @@
 }
 
 .box:empty {
-  background-color: var(--quaternary-main)
+  background-color: #eee4da59;
 }
  
 .text {
   font-size: 7vw;
 }
 
+.expanded {
+  transform: scale(1.1);
+}
+
+.tile2 {
+  background: #eee4da;
+  color: #776e65
+}
+
+.tile4 {
+  background: #eee1c9;
+  color: #776e65
+}
+
+.tile8 {
+  background: #f3b27a;
+}
+
+.tile16 {
+  background: #f69664;
+}
+
+.tile32 {
+  background: #f77c5f
+}
+
+.tile64 {
+  background: #f75f3b
+}
+
+.tile128 {
+  background: #edd073
+}
+
+.tile246 {
+  background: #edcc62
+}
+
+.tile512{
+  background: #edc950
+}
+
+.tile1024 {
+  background: #edc950
+}
+
+.tile2048 {
+  background: #edc950
+}
+
+.tile4096 {
+  background: #edc950
+}

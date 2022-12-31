@@ -13,11 +13,12 @@
   margin-top: 10px;
   padding: 0 10px 0 10px;
   border-radius: 8px;
-  background: var(--secondary-main);
+  background: var(--primary-contrast);
   height: 25px;
   align-items: center;
   display: flex;
-  gap: 3px
+  gap: 3px;
+  color: #776e65
 }
 
 .item_name {
@@ -31,7 +32,7 @@
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
-  background: var(--tertiary-main);
+  background: var(--primary-main);
 }
 
 .header {
@@ -50,7 +51,7 @@
 }
 
 .name_container {
-  background: var(--tertiary-main);
+  background: var(--primary-main);
   padding: 10px;
   border-radius: 10px;
   display: flex;
@@ -73,7 +74,7 @@
   margin-top: 5x;
   font-size: 2vw;
   outline: none;
-  border-bottom: 2px solid var(--quaternary-main);
+  border-bottom: 2px solid white;
   border-radius: 2px;
 }
 

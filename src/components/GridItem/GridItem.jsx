@@ -5,9 +5,14 @@ const toPercentage = (num) => num.toString().concat("%");
 
 export const GridItem = (props) => {
   const { items, id, type } = props;
+  const [expanded, setExpanded] = React.useState(false);
+
+  React.useEffect(() => {
+    setExpanded(true);
+    setTimeout(() => setExpanded(false), 100);
+  }, [items[id]?.[2]]);
 
   if (!(id in items)) return null;
-
   var [x, y, val] = items[id];
 
   var left = toPercentage(x * 25);
@@ -17,6 +22,10 @@ export const GridItem = (props) => {
   if (type === "dead") {
     className += ` ${classes.red}`;
   }
+  if (expanded) {
+    className += ` ${classes.expanded}`;
+  }
+  className += ` ${classes[`tile${val}`]}`;
 
   return (
     <div
