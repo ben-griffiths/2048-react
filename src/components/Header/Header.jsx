@@ -24,19 +24,25 @@ const ScoreBox = (props) => {
 };
 
 export const Header = (props) => {
-  const { score, resetBoardFunc, highScore, undoFunc } = props;
+  const { score, resetBoardFunc, highScore, undoFunc, setOpenLeaderboard } =
+    props;
   return (
     <div className={classes.container}>
       <div className={classes.header}>
         <h1 className={classes.main_header}>2048-React</h1>
-        <ScoreBox title="Score" score={score} />
-        <ScoreBox title="Highscore" score={highScore} />
+        <div className={classes.info}>
+          <ScoreBox title="Score" score={score} />
+          <ScoreBox title="Highscore" score={highScore} />
+          <div className={classes.leaderboard_button}>
+            <Button onClick={() => setOpenLeaderboard(true)}>
+              Leaderboard
+            </Button>
+          </div>
+        </div>
       </div>
       <div className={classes.actionBar}>
         <Button onClick={undoFunc}>Undo</Button>
-        <Button onClick={resetBoardFunc}>
-          Reset
-        </Button>
+        <Button onClick={resetBoardFunc}>Reset</Button>
       </div>
     </div>
   );

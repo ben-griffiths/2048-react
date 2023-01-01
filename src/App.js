@@ -9,7 +9,9 @@ import Grid2048, {
 } from "./components/Grid2048";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import Modal from "./components/Modal";
 import { randomName } from "./helpers/common";
+import LeaderBoard from "./components/Leaderboard";
 
 function App({ initialCoords }) {
   const [items, setItems] = useState(createInitialItems(initialCoords));
@@ -22,6 +24,7 @@ function App({ initialCoords }) {
   const [timer, setTimer] = useState(null);
   const [leaderboard, setLeaderboard] = useState(null);
   const [username, setUsername] = useState(randomName());
+  const [openLeaderboard, setOpenLeaderboard] = useState(false);
 
   useEffect(() => {
     if (!timer) {
@@ -51,6 +54,7 @@ function App({ initialCoords }) {
       initialCoords,
       deadItems,
       setDeadItems,
+      openLeaderboard,
     }),
     [
       items,
@@ -71,6 +75,7 @@ function App({ initialCoords }) {
       initialCoords,
       deadItems,
       setDeadItems,
+      openLeaderboard,
     ]
   );
 
@@ -176,6 +181,7 @@ function App({ initialCoords }) {
             highScore={highScore}
             resetBoardFunc={() => resetBoard(states)}
             undoFunc={undoFunc}
+            setOpenLeaderboard={setOpenLeaderboard}
           />
           <Grid2048
             items={items}
@@ -184,12 +190,21 @@ function App({ initialCoords }) {
             setGameOver={setGameOver}
           />
         </div>
-        <Sidebar
+        <Sidebar>
+          <LeaderBoard
+            leaderboard={leaderboard}
+            username={username}
+            setUsername={setUsername}
+          />
+        </Sidebar>
+      </div>
+      <Modal open={openLeaderboard} onClose={() => setOpenLeaderboard(false)}>
+        <LeaderBoard
           leaderboard={leaderboard}
           username={username}
           setUsername={setUsername}
         />
-      </div>
+      </Modal>
     </div>
   );
 }

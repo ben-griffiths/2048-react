@@ -1,8 +1,22 @@
+@media only screen and (max-width: 700px) {
+  .leaderboard_button {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  .leaderboard_button {
+    display: none;
+
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
 .header {
   display: flex;
   width: 100%;
@@ -10,14 +24,21 @@
   padding: 10px 0 10px 0;
   color: #776e65;
 }
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px
+}
+
 .actionBar {
   display: flex;
   width: 100%;
   justify-content: flex-end;
   gap: 5px
 }
+
 .box {
-  margin-left: 10px;
   padding: 12px;
   background: var(--primary-main);
   border-radius: 10px;
@@ -47,4 +68,9 @@
 
 .font_size_1_5vw {
   font-size: 1.5vw;
+}
+
+
+.leaderboard_button > * {
+  height: 100%;
 }
